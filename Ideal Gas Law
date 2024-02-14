@@ -1,0 +1,26 @@
+IGL <- function(var1,var2,input1,input2){
+  # Input Options
+  # 1 = temperature (K)
+  # 2 = pressure (Pa)
+  # 3 = specific volume (m^3/kg)
+  # 4 = rho or inverse density (m^3/kg)
+  # INPUT VALUES MUST MATCH "VAR" VALUES
+  R = 8.314; #J/(mol*K)
+  n = 1; #default
+  if (input1 == 1 && input2 == 2)
+    return (paste(c("Volume (m^3/kg) = ", (n*R*var1)/var2),collapse=" "))
+  else if (input1 == 2 && input2 == 1)
+    return (paste(c("Volume (m^3/kg) = ", (n*R*var2)/var1),collapse=" "))
+  else if (input1 == 3 && input2 == 1)
+    return (paste(c("Pressure (m^3) = ", (n*R*var2)/var1),collapse= " "))
+  else if (input1 == 1 && input2 == 3)
+    return (paste(c("Pressure (Pa) = ", (n*R*var1)/var2),collapse= " "))
+  else if (input1 == 2 && input2 == 3 || input1 == 3 && input2 == 2)
+    return (paste(c("Temperature (K) = ", (var1*var2)/(n*R)),collapse= " "))
+  else if (input1 == 4 && input2 == 1 || input1 == 1 && input2 == 4)
+    return (paste(c("Pressure (Pa) = ", (var1*n*R*var2)),collapse= " "))
+  else if (input1 == 4 && input2 == 2)
+    return (paste(c("Temperature (K) = ", (var2/(var1*n*R))),collapse= " "))
+  else if (input1 == 2 && input2 == 4)
+    return (paste(c("Temperature (K) = ", (var1/(var2*n*R))),collapse= " "))
+}
