@@ -1,0 +1,38 @@
+Poisson <- function(var1,var2,input1,input2,input3,var3){
+#input3 is 1 for dry air, 2 for moist air
+p0 <- 10000; #Pa
+Kd <- 0.2854; #Gas constant for DRY AIR ONLY
+    # Values for inputs1 and inputs 2 are below, THEY MUST MATCH WITH
+    # variables
+    # 1 = Temperature (K)
+    # 2 = Potential Temperature (K)
+    # 3 = Pressure (Pa)
+    # IF YOU SELECT 2 FOR input3 YOU MUST INCLUDE MIXING RATIO FOR var3
+    if (input3 == 1)
+        if (input1 == 2 && input2 == 3)
+            return (paste(c("Temperature (K) = ", var1*((var2/p0)^Kd)),collapse=" "))
+        else if (input1 == 3 && input2 == 2)
+            return (paste(c("Temperature (K) = ", var2*((var1/p0)^Kd)),collapse=" "))
+        else if (input1 == 1 && input2 == 3)
+            return (paste(c("Potential Temperature (K) = ", ((1/var1)*((var2/p0)^Kd))^-1),collapse=" "))
+        else if (input1 == 3 && input2 == 1)
+            return (paste(c("Potential Temperature (K) = ", ((1/var2)*((var1/p0)^Kd))^-1),collapse=" "))
+        else if (input1 == 1 && input2 == 2)
+            return (paste(c("Pressure (Pa) = ", p0*((var1/var2)^(1/Kd))),collapse=" "))
+        else if (input1 == 2 && input2 == 1)
+            return (paste(c("Pressure (Pa) = ", p0*((var2/var1)^(1/Kd))),collapse=" "))
+    else (input3 == 2) #For some reason the quotes don't show up for the below lines
+        Km <- return(0.2854*(1-0.24*var3)) #Poisson Gas Constant for Moist Air, var3 is mixing ratio
+        if (input1 == 2 && input2 == 3)
+            return (paste(c("Temperature (K) = ", var1*((var2/p0)^Km)),collapse=" "))
+        else if (input1 == 3 && input2 == 2)
+            return (paste(c("Temperature (K) = ", var2*((var1/p0)^Km)),collapse=" "))
+        else if (input1 == 1 && input2 == 3)
+            return (paste(c("Potential Temperature (K) = ", ((1/var1)*((var2/p0)^Km))^-1),collapse=" "))
+        else if (input1 == 3 && input2 == 1)
+            return (paste(c("Potential Temperature (K) = ", ((1/var2)*((var1/p0)^Km))^-1),collapse=" "))
+        else if (input1 == 1 && input2 == 2)
+            return (paste(c("Pressure (Pa) = ", p0*(var1/var2)^(1/Km)),collapse=" "))
+        else if (input1 == 2 && input2 == 1)
+            return (paste(c("Pressure (Pa) = ", p0*(var1/var2)^(1/Km)),collapse=" "))
+}           
