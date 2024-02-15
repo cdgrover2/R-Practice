@@ -1,0 +1,38 @@
+Hydrostatic <- function(var1,var2,input1,input2){
+  g <- -9.8; #gravity (m/s^2)
+  #Inputs are:
+  # 1 = dp (Pa)
+  # 2 = dz (m)
+  # 3 = rho (kg/m^3)
+  if (input1 == 1 && input2 == 2)
+    return (paste(c("rho (kg/m^3) = ", -(var1/(var2*g))),collapse=" "))
+  else if (input1 == 2 && input2 == 1)
+    return (paste(c("rho (kg/m^3) = ", -(var2/(var1*g))),collapse=" "))
+  else if (input1 == 1 && input2 == 3)
+    return (paste(c("dz (m) = ", -var1/(var2*g)),collapse=" "))
+  else if (input1 == 3 && input2 == 1)
+    return (paste(c("dz (m) = ", -var2/(var1*g)),collapse=" "))
+  else if (input1 == 2 && input2 == 3 || input1 == 3 && input2 ==2)
+    return (paste(c("dp (Pa) = ", -(var1*var2*g)),collapse=" "))
+}
+
+#Version 2: Integral Version. p,z,or rho are known
+Hydrostatic <- function(var1,var2,input1,input2){
+  # Inputs are:
+  # 1 = p (Pa) An array of at least two elements
+  # 2 = z (m) An array of at least two elements
+  # 3 = rho (kg/m^3) A constant
+  g = -9.8; #gravity (m/s^2)
+  if (input1 == 1 && input2 == 2)
+    return (paste(c("rho (kg/m^3) = ", diff(var1)*(-diff(var2)*g)),collapse=" "))
+  else if (input1 == 2 && input2 == 1)
+    return (paste(c("rho (kg/m^3) = ", diff(var2)*(-diff(var1)*g)),collapse=" "))
+  else if (input1 == 1 && input2 == 3)
+    return (paste(c("dz (m) = ", diff(var1)/(-var2*g)),collapse=" "))
+  else if (input1 == 3 && input2 == 1)
+    return (paste(c("dz (m) = ", diff(var2)/(-var1*g)),collapse=" "))
+  else if (input1 == 2 && input2 == 3)
+    return (paste(c("dp (Pa) = ", diff(var1)*(-var2*g)),collapse=" "))
+  else if (input1 == 3 && input2 == 2)
+    return (paste(c("dp (Pa) = ", diff(var2)*(-var1*g)),collapse=" "))
+}
