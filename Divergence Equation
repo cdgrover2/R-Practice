@@ -1,0 +1,36 @@
+Divergence <- function(var) { #Function is designed for NCEP.NCAR Reanalysis datasets with dimensions of LON,LAT,LEV,time or 144,73,17,1460
+x <- (seq(from = -180, to = 177.5, by = 2.5)) #Define x for dx
+y <- (seq(from = -90, to = 90, by = 2.5)) #Define y for dy
+dx1 <- diff(x)*111000
+dx2 <- cos(y*(pi/180))
+dx <- dx1 %*% t(dx2) #Define dx
+dy <- t((diff(y)*111000)) #Define dy
+dFx <- array(NA,c(143,73,17,1460)) #Allocate
+dFy <- array(NA,c(144,72,17,1460))
+dFdx <- array(NA,c(143,73,17,1460))
+dFdy <- array(NA,c(144,72,17,1460))
+  for (i in 1:143){
+    dFx[i,,,] <- (var[i+1,,,] - var[i,,,])
+  }
+  for (j in 1:72){
+    dFy[,j,,] <- (var[,j+1,,] - var[,j,,])
+  }
+  for (p in 1:17){
+    for (t in 1:1460)
+      dFdx[,,p,t] <- dFx[,,p,t]/dx
+  }
+  for (i in 1:143){
+    for (p in 1:17)
+      for (t in 1:1460)
+        dFdy[i,,p,t] <- dFy[i,,p,t]/dy
+  }
+  DIV <- (dFdx[,1:72,,] + dFdy[1:143,,,])
+}
+
+
+#Oversimplified version
+Divergence <- function(dx,dy,du,dv){
+    dudx <- du/dx
+    dvdy <- dv/dy
+    return(dudx + dvdy)
+}
