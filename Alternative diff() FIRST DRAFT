@@ -1,8 +1,10 @@
+%The following code runs but always returns a NULL value which is not good. Will revisit to fix.
+
 diff_fun <- function(var,dimension){ #Code is based on MATLAB's version of diff()
   n <- dim(var)
   m <- length(n)
   
-  #Allocate for dimensions (this part was assisted with ChatGPT)
+  #Allocate for dimensions (this part was assisted with ChatGPT by troubleshooting errors)
   Fx <- array(NA,c(n))
   dim_Fx <- dim(Fx)
   dim_Fx[1] <- dim_Fx[1]-1
