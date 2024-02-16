@@ -1,0 +1,60 @@
+diff_fun <- function(var,dimension){ #Code is based on MATLAB's version of diff()
+  n <- dim(var)
+  m <- length(n)
+  
+  #Allocate for dimensions (this part was assisted with ChatGPT)
+  Fx <- array(NA,c(n))
+  dim_Fx <- dim(Fx)
+  dim_Fx[1] <- dim_Fx[1]-1
+  Fx <- array(Fx,dim_Fx)
+  
+  Fy <- array(NA,c(n))
+  dim_Fy <- dim(Fy)
+  dim_Fy[2] <- dim_Fy[2]-1
+  Fy <- array(Fy,dim_Fy)
+  
+  if (m >= 3){
+  Fz <- array(NA,c(n))
+  dim_Fz <- dim(Fz)
+  dim_Fz[3] <- dim_Fz[3]-1
+  Fz <- array(Fz,dim_Fz)}
+  
+  else if (m == 4){
+  Fa <- array(NA,c(n))
+  dim_Fa <- dim(Fa)
+  dim_Fa[4] <- dim_Fa[4]-1
+  Fa <- array(Fa,dim_Fa)}
+    
+  if (m == 1){
+    stop("Use R's version of diff()")}
+  else if (m == 2){
+    if (dimension == 1){
+      for (i in 1:(n[1]-1)){
+        Fx[i,] <- (var[i+1,] - var[i,])}}
+    else if (dimension == 2){
+      for (j in 1:(n[2]-1)){
+        Fy[,j] <- (var[,j+1] - var[,j])}}}
+  else if (m == 3){
+    if (dimension == 1){
+      for (i in 1:(n[1]-1)){
+        Fx[i,,] <- (var[i+1,,] - var[i,,])}}
+    else if (dimension == 2){
+      for (j in 1:(n[2]-1)){
+        Fy[,j,] <- (var[,j+1,] - var[,j,])}}
+    else if (dimension == 3 ){
+      for (k in 1:(n[3]-1)){
+        Fz[,,k] <- (var[,,o+1] - var[,,o])}}}
+  else if (m == 4){
+    if (dimension == 1){
+      for (i in 1:(n[1]-1)){
+        Fx[i,,,] <- (var[i+1,,,] - var[i,,,])}}
+    else if (dimension == 2){
+      for (j in 1:(n[2]-1)){
+        Fy[,j,,] <- (var[,j+1,,] - var[,j,,])}}
+    else if (dimension == 3 ){
+      for (k in 1:(n[3]-1)){
+        Fz[,,k,] <- (var[,,o+1,] - var[,,o,])}}
+    else if (dimension == 4 ){
+      for (a in 1:(n[4]-1)){
+        Fa[,,,a] <- (var[,,,a+1] - var[,,,a])}}}
+}
