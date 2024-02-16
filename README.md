@@ -1,0 +1,1 @@
+Most of the scripts convert MATLAB code to R. As of 2/16/2024, R is relatively new to me so while these scripts run, there may still be the need for edits. Any suggested edits are welcomed. Credit is appreciated if you use these codes.
