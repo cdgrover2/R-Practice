@@ -1,0 +1,30 @@
+# Relative Vorticity dv/dx - du/dy Function, current function is catered to datasets of LON,LAT,LEV,TIME (144x73x17x1460)
+rel_vort <- function(u_component,v_component){
+  x <- (seq(from = -180, to = 177.5, by = 2.5)) #Define x for dx
+  y <- (seq(from = -90, to = 90, by = 2.5)) #Define y for dy
+  dx1 <- diff(x)*111000
+  dx2 <- cos(y*(pi/180))
+  dx <- dx1 %*% t(dx2) #Define dx
+  Term1 <- array(NA,c(143,72,17,1460))
+  Term2 <- array(NA,c(143,72,17,1460))
+  dug <- array(NA,c(143,73,17,1460))
+  dvg <- array(NA,c(144,72,17,1460))
+  dug <- diff_fun(u_component,1)
+  dvg <- diff_fun(v_component,2)
+  dy <- t((diff(y)*111000)) #Define dy
+  for (i in 1:143){
+    for (j in 1:72)
+      for (p in 1:17)
+        for (t in 1:1460)
+  Term1[i,j,p,t] <- (dvg[i,j,p,t]/dx[i,j])
+  }
+  
+  for (i in 1:143){
+    for (j in 1:72)
+      for (p in 1:17)
+        for (t in 1:1460)
+  Term2[i,j,p,t] <- (dug[i,j,p,t]/dy[j])
+  }
+  Ans <- (Term1 - Term2)
+  return(Ans)
+}
