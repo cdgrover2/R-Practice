@@ -2,7 +2,7 @@ diff_fun <- function(var,dimension){ #Code is based on MATLAB's version of diff(
   n <- dim(var)
   m <- length(n)
   
-  #Allocate for dimensions (ChatGPT assisted with missing bracket errors and the creation of the allocation method)
+  #Allocate for dimensions (this part was assisted with ChatGPT)
   Fx <- array(NA,c(n))
   dim_Fx <- dim(Fx)
   dim_Fx[1] <- dim_Fx[1]-1
@@ -29,53 +29,53 @@ diff_fun <- function(var,dimension){ #Code is based on MATLAB's version of diff(
   if (m == 2) {
     if (dimension == 1) {
       for (i in 1:(n[1]-1)) {
-        (Fx[i,]) <- ((var[i+1,] - var[i,]))
+        (Fx[i,]) <- matrix((var[i+1,] - var[i,]))
     }
-    list(Fx)
+      return(Fx)
     }else if (dimension == 2){
       for (j in 1:(n[2]-1)){
-        (Fy[,j]) <- (var[,j+1] - var[,j])
+        (Fy[,j]) <- matrix(var[,j+1] - var[,j])
     }
-    list(Fy)
+      return(Fy)
     }
   }else if (m == 3){
     if (dimension == 1){
       for (i in 1:(n[1]-1)){
-        Fx[i,,] <- (var[i+1,,] - var[i,,])
+        Fx[i,,] <- matrix(var[i+1,,] - var[i,,])
     }
-    list(Fx)
+      return(Fx)
     } else if (dimension == 2){
       for (j in 1:(n[2]-1)){
-        Fy[,j,] <- (var[,j+1,] - var[,j,])
+        Fy[,j,] <- matrix(var[,j+1,] - var[,j,])
     }
-    list(Fy)
+      return(Fy)
     } else if (dimension == 3 ){
       for (k in 1:(n[3]-1)){
-        Fz[,,k] <- (var[,,k+1] - var[,,k])
+        Fz[,,k] <- matrix(var[,,k+1] - var[,,k])
     }
-    list(Fz)
+      return(Fz)
     }
   }else if (m == 4){
     if (dimension == 1){
       for (i in 1:(n[1]-1)){
-        Fx[i,,,] <- (var[i+1,,,] - var[i,,,])
+        Fx[i,,,] <- matrix(var[i+1,,,] - var[i,,,])
    }
-    list(Fx)
+    return(Fx)
     }else if (dimension == 2){
       for (j in 1:(n[2]-1)){
-        Fy[,j,,] <- (var[,j+1,,] - var[,j,,])
+        Fy[,j,,] <- matrix(var[,j+1,,] - var[,j,,])
    }
-    list(Fy)
+    return(Fy)
     }else if (dimension == 3){
       for (k in 1:(n[3]-1)){
-        Fz[,,k,] <- (var[,,k+1,] - var[,,k,])
+        Fz[,,k,] <- matrix(var[,,k+1,] - var[,,k,])
    }  
-    list(Fz)
+    return(Fz)
    } else if (dimension == 4){
       for (a in 1:(n[4]-1)){
-        Fa[,,,a] <- (var[,,,a+1] - var[,,,a])
+        Fa[,,,a] <- matrix(var[,,,a+1] - var[,,,a])
    }
-    list(Fa)
+    return(Fa)
   }
   }
 }
