@@ -1,0 +1,61 @@
+# Advection Equation, a thing is moved by wind, but that wind is made up two other thingys
+advec <- function(f,Ux,Uy){
+  
+  # Specifics of array sizes change depending on leap year and time size used
+  
+  Term1 <- array(NA,c(143,73,17,1464)) #Allocate
+  Term2 <- array(NA,c(144,72,17,1464))
+  dFxdx <- array(NA,c(143,73,17,1464)) #Allocate
+  dFydy <- array(NA,c(144,72,17,1464))
+  
+  x <- (seq(from = -180, to = 177.5, by = 2.5)) #Define x for dx
+  y <- (seq(from = -90, to = 90, by = 2.5)) #Define y for dy
+  
+  dx1 <- diff(x)*111000
+  dx2 <- cos(y*(pi/180))
+  dx <- dx1 %*% t(dx2) #Define dx
+  dy <- t((diff(y)*111000)) #Define dy
+  
+  dUx <- diff_fun(Ux,1)
+  dUy <- diff_fun(Uy,2)
+  
+  dFx <- diff_fun(f,1)
+  dFx_n <- dim(dFx)
+  dFy <- diff_fun(f,2)
+  dFy_n <- dim(dFy)
+  
+  for (i in 1:dFx_n[1]){{
+    for (j in 1:dFx_n[2])
+      for (p in 1:dFx_n[3])
+        for (t in 1:dFx_n[4])
+          dFxdx[i,j,p,t] <- (dFx[i,j,p,t]/dx[i,j])
+  }
+    dFxdx_n = dim(dFxdx)
+  }
+  
+  for (i in 1:dFxdx_n[1]){
+    for (j in 1:dFxdx_n[2])
+      for (p in 1:dFxdx_n[3])
+        for (t in 1:dFxdx_n[4])
+          Term1[i,j,p,t] <- matrix(Ux[i,j,p,t]*dFxdx[i,j,p,t])
+  }
+  
+  for (i in 1:dFy_n[1]){{
+    for (j in 1:dFy_n[2])
+      for (p in 1:dFy_n[3])
+        for (t in 1:dFy_n[4])
+          dFydy[i,j,p,t] <- (dFy[i,j,p,t]/dy[j])
+  }
+    dFydy_n = dim(dFydy)
+  }
+  for (i in 1:dFydy_n[1]){
+    for (j in 1:dFydy_n[2])
+      for (p in 1:dFydy_n[3])
+        for (t in 1:dFydy_n[4])
+          Term2[i,j,p,t] <- Uy[i,j,p,t]*dFydy[i,j,p,t]
+  }
+  Ans <- (Term1[,1:72,,] + Term2[1:143,,,])
+  return(Ans)
+}
+
+answer <- advec(R_T2020,R_uwnd2020,R_vwnd2020)
