@@ -1,0 +1,52 @@
+# Geostrophic Wind Equation with input var being Geopotential Heights
+geowind <- function(var){
+  g <- 9.8 #define gravity (m/s^2)
+  
+  x <- (seq(from = -180, to = 177.5, by = 2.5)) #Define x for dx
+  y <- (seq(from = -90, to = 90, by = 2.5)) #Define y for dy
+  
+  dx1 <- diff(x)*111000
+  dx2 <- cos(y*(pi/180))
+  dx <- dx1 %*% t(dx2) #Define dx
+  dy <- t((diff(y)*111000)) #Define dy
+
+  f0 <- 1.4584e-04*sin(y) #define Coriolis parameter
+  f0[37] <- 0.00000001 #Set REALLY small to avoid +/-Inf problem
+  a <- -g/f0;
+  b <- g/f0;
+  
+  DhDx <- array(NA,c(143,73,17,1464)) #Allocate
+  DhDy <- array(NA,c(144,72,17,1464))
+  ug <- array(NA,c(143,73,17,1464))
+  vg <- array(NA,c(144,72,17,1464))
+  
+  dhdx <- diff_fun(var,1)
+  dhdx_n <- dim(dhdx)
+  dhdy <- diff_fun(var,2)
+  dhdy_n <- dim(dhdy)
+  
+  for (i in 1:dFx_n[1]){{
+    for (j in 1:dFx_n[2])
+      for (p in 1:dFx_n[3])
+        for (t in 1:dFx_n[4])
+          DhDx[i,j,p,t] <- dhdx[i,j,p,t]/dx[i,j]
+   }
+  }
+  
+  for (i in 1:dFy_n[1]){{
+    for (j in 1:dFy_n[2])
+      for (p in 1:dFy_n[3])
+        for (t in 1:dFy_n[4])
+          DhDy[i,j,p,t] <- dhdy[i,j,p,t]/dy[j]
+    }
+  }
+  
+  for (s in 1:73){
+    ug[,s,,] = a[s]*DhDx[,s,,]
+  }
+
+  for (s in 1:72){
+    vg[,s,,] = b[s]*DhDy[,s,,]
+  }
+  return(list(ug,vg))
+}
