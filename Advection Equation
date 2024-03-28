@@ -57,5 +57,3 @@ advec <- function(f,Ux,Uy){
   Ans <- (Term1[,1:72,,] + Term2[1:143,,,])
   return(Ans)
 }
-
-answer <- advec(R_T2020,R_uwnd2020,R_vwnd2020)
